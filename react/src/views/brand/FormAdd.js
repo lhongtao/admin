@@ -29,14 +29,7 @@ class BrandInfoAdd extends React.Component {
   state = {
     loading: false,
     fileName: '',
-    fileList: [
-      {
-        uid: '-1',
-        name: 'xxx.png',
-        status: 'done',
-        url: 'http://www.baidu.com/xxx.png',
-      },
-    ],
+    fileList: [],
   };
 
   handleChange = info => {
@@ -78,6 +71,7 @@ class BrandInfoAdd extends React.Component {
     }
     return e && e.fileList;
   };
+
   submitForm = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -102,14 +96,30 @@ class BrandInfoAdd extends React.Component {
       description: res.message,
       duration: 3
     })
+    this.resetFormModel()
     this.props.onSure()
   }
 
+  resetFormModel = () => {
+    this.props.form.resetFields()
+    this.setState({
+      imageUrl: '',
+      loading: false,
+      fileName: '',
+      fileList: [],
+    })
+  }
+  
+  handleCancel = () => {
+    this.resetFormModel()  
+    this.props.onCancel()
+  }
 
   render() {
     const { fileList } = this.state
     const { getFieldDecorator } = this.props.form
     const { brandInfo } = this.props
+    const actionUrl = `${process.env.REACT_APP_BASE_URL}/admin/file/upload`
     const formItemLayout = {
       labelCol: {
           span: 4
@@ -133,7 +143,7 @@ class BrandInfoAdd extends React.Component {
         width={800}
         centered
         onOk={this.submitForm}
-        onCancel={this.props.onCancel}
+        onCancel={this.handleCancel}
         title='添加品牌'>
         <Form {...formItemLayout} className="brand-info-model">
           <Form.Item label="标题">
@@ -145,7 +155,7 @@ class BrandInfoAdd extends React.Component {
               getValueFromEvent: this.normFile,
             })(
               <Upload
-                action="http://localhost:8090/admin/file/upload"
+                action= {actionUrl}
                 name="file"
                 listType="picture-card"
                 showUploadList={false}

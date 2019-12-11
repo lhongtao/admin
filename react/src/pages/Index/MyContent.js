@@ -5,7 +5,7 @@ import './style.less'
 const { Footer } = Layout;
 const { TabPane } = Tabs;
 const imgs = [
-  `${process.env.REACT_APP_BASE_URL}/bg1.jpg`,
+  // `${process.env.REACT_APP_BASE_URL}/bg1.jpg`,
   `http://pic1.win4000.com/wallpaper/c/53cdd1fad4bcb.jpg`,
 ]
 

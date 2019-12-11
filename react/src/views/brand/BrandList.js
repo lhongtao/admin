@@ -57,7 +57,7 @@ class BrandList extends Component {
           align: 'center',
           dataIndex: 'image',
           render: (text, record) => (
-            <div><img src={'http://192.168.0.106:8090/upload/' + text }/></div>
+            <div><img src={`${process.env.REACT_APP_BASE_URL}/upload/` + text }/></div>
           ),
           width: 40,
         },
@@ -97,6 +97,7 @@ class BrandList extends Component {
 
   componentDidMount() { //  This is a good place to instantiate the network request(created)
     this.initBrands()
+    console.log(`${process.env.REACT_APP_BASE_URL}`)
   }
 
   componentDidUpdate(prevProps) {
