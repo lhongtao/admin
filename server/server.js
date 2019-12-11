@@ -14,9 +14,15 @@ var server=express();
 //设置允许跨域访问该服务.
 server.all('*', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Access-Control-Allow-Methods', '*');
-  res.header('Content-Type', 'application/json;charset=utf-8');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With');
+  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  // res.header('Content-Type', 'application/json;charset=utf-8');
+  // if (req.method == 'OPTIONS') {
+  //   res.send(200);
+  // }
+  // else {
+  //   next();
+  // }
   next();
 });
 server.listen(8090, () => console.log('Example app listening on port 8090!'))
@@ -51,4 +57,5 @@ server.use('/', require('./route/web')());
 server.use('/admin/', require('./route/admin')());
 
 //5.default：static
-server.use(static('./static/'));
+server.use(static('static'));
+server.use(static('public'));

@@ -2,6 +2,7 @@ const { exec } = require('../db/mysql')
 const express=require('express');
 const mysql=require('mysql');
 const { SuccessModel, ErrorModel } = require('../model/resModel')
+const { dateNow } = require('../utils/filter')
 
 /**
  * 添加品牌
@@ -15,11 +16,12 @@ const createBrand = async (param) => {
       httpCode: 400
     })
   }
-  const sql = `INSERT INTO brand_list (name, description, image) VALUE('${name}', '${description}', '${image}')`
+  const date = dateNow()
+  const sql = `INSERT INTO brand_list (name, description, image, date) VALUE('${name}', '${description}', '${image}', '${date}')`
   const res = await exec(sql)
   return new SuccessModel({
     data: res,
-    message: '修改成功'
+    message: '添加成功'
   })
 }
 
@@ -75,7 +77,6 @@ const deleteBrand = async (param) => {
     data: res,
     message: '删除成功'
   })
-  // const sql = `delete from users where id in (${ids.join(',')})`
 }  
 
 module.exports = {

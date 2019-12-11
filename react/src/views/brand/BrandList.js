@@ -57,7 +57,7 @@ class BrandList extends Component {
           align: 'center',
           dataIndex: 'image',
           render: (text, record) => (
-            <div><img src={text}/></div>
+            <div><img src={'http://192.168.0.106:8090/upload/' + text }/></div>
           ),
           width: 40,
         },
@@ -100,10 +100,7 @@ class BrandList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // 典型用法（不要忘记比较 props）：当修改用户信息时，重新加载
-    if (this.props.userID !== prevProps.userID) {
-      this.getUsers(this.state.pagination.current);
-    }
+
   }
   initBrands = async () => {
     const res = await getBrandList()
@@ -143,6 +140,15 @@ class BrandList extends Component {
         isShowInfoModal: false,
         brandInfo: {}
     })
+  }
+
+  closeSubmitModal = () => {
+    this.setState({
+      isShowFormAdd: false,
+      isShowInfoModal: false,
+      brandInfo: {}
+    })
+    this.initBrands()
   }
 
   components = {
@@ -236,8 +242,8 @@ class BrandList extends Component {
             />
           </div>
         </Card>
-        <BrandInfoModal visible={isShowInfoModal} brandInfo={brandInfo} onCancel={this.closeInfoModal} />
-        <BrandInfoAdd visible={isShowFormAdd} onCancel={this.closeInfoModal} />
+        <BrandInfoModal visible={isShowInfoModal} brandInfo={brandInfo} onCancel={this.closeInfoModal} onSure={this.closeSubmitModal} />
+        <BrandInfoAdd visible={isShowFormAdd} onCancel={this.closeInfoModal} onSure={this.closeSubmitModal} />
       </div>
     )
   }

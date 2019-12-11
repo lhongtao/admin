@@ -1,5 +1,14 @@
 import request from '@/utils/request'
 
+// Upload picture
+export function uploadFiles(data) {
+  return request({
+    url: '/admin/file/upload',
+    method: 'post',
+    data
+  })
+}
+
 // 提交留言
 export function createMessage(data) {
   return request({

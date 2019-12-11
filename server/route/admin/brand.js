@@ -1,8 +1,5 @@
 const express=require('express');
-const mysql=require('mysql');
 const { getBrands, updateBrand, createBrand, deleteBrand } = require('../../controller/brand')
-
-// var db=mysql.createPool({host: 'localhost', user: 'root', password: '20192019', database: 'learn'});
 
 function handleRes(ctx, next, res) {
   if (res.status === 0) {
@@ -19,7 +16,6 @@ module.exports = function (){
   router.get('/getBrands', async function (req, res) {
     const data = await getBrands()
     res.send(data).end() // 数据发送给前台
-    // handleRes(ctx, next, res)
   })
   
   // 修改品牌

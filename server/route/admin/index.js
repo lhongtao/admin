@@ -22,6 +22,7 @@ module.exports=function (){
   router.use('/banners', require('./banners')());
   router.use('/brand', require('./brand')());
   router.use('/custom', require('./custom')());
+  router.use('/file', require('./file')());
 
   return router;
 };

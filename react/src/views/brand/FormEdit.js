@@ -49,6 +49,7 @@ class BrandInfoModal extends React.Component {
       description: res.message,
       duration: 3
     })
+    this.props.onSure()
   }
 
   render() {
