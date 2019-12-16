@@ -1,14 +1,14 @@
 const express=require('express');
 const { getBrands, updateBrand, createBrand, deleteBrand } = require('../../controller/brand')
 
-function handleRes(ctx, next, res) {
-  if (res.status === 0) {
-    ctx.body = res
-  } else {
-    ctx.status = res.httpCode
-    ctx.body = res
-  }
-}
+// function handleRes(ctx, next, res) {
+//   if (res.status === 0) {
+//     ctx.body = res
+//   } else {
+//     ctx.status = res.httpCode
+//     ctx.body = res
+//   }
+// }
 
 module.exports = function (){
   var router = express.Router();
@@ -16,6 +16,7 @@ module.exports = function (){
   router.get('/getBrands', async function (req, res) {
     const data = await getBrands()
     res.send(data).end() // 数据发送给前台
+    // handleRes(ctx, next, res)
   })
   
   // 修改品牌

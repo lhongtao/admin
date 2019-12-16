@@ -23,6 +23,7 @@ module.exports=function (){
   router.use('/brand', require('./brand')());
   router.use('/custom', require('./custom')());
   router.use('/file', require('./file')());
+  router.use('/system', require('./system')());
 
   return router;
 };
