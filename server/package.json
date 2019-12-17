@@ -15,7 +15,7 @@
     "express-route": "^0.1.4",
     "express-static": "^1.0.3",
     "multer": "^1.2.1",
-    "mysql": "^2.12.0"
+    "mysql": "^2.14.0"
   },
   "dependencies": {
     "jsonwebtoken": "^8.5.1"
