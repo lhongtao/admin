@@ -4,7 +4,7 @@ import { getToken } from '@/utils/auth'
 
 const service = axios.create({
   baseURL: 'http://localhost:8090/',
-  headers: { "Content-Type": "application/json;charset=UTF-8" },
+  // headers: { "Content-Type": "application/json;charset=UTF-8" },
   timeout: 0,
 });
 
@@ -12,7 +12,8 @@ service.interceptors.request.use(
   config => {
     // Do something before request is sent
     if(getToken()){
-      config.headers['token'] = getToken()
+      config.headers.common['Authorization'] = getToken();
+      // config.headers['token'] = getToken()
     }
     return config
   },

@@ -158,7 +158,7 @@ class System extends React.Component {
     // this.getSystemData()
     notification.success({
       message: '更新成功',
-      description: res.message,
+      description: res.data.message,
       duration: 3
     })
   }

@@ -1,7 +1,7 @@
 const crypto=require('crypto');
 
 module.exports={
-  MD5_SUFFIX: 'FDSW$t34tregt5tO&$(#RHuyoyiUYE*&OI$HRLuy87odlfh)',
+  MD5_SUFFIX: 'Login2019',
   md5: function (str){
     var obj=crypto.createHash('md5');
 

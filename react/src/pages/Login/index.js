@@ -1,23 +1,24 @@
 import React from 'react'
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox,notification } from 'antd';
 import './style.less'
 import { withRouter } from 'react-router-dom'
 import LoadableComponent from "@/utils/LoadableComponent"
+import { login } from "@/api/login";
+import { setToken, getToken } from "@/utils/auth";
 
-// @withRouter
+@withRouter
 class LoginForm extends React.Component {
     state = {
         // show: 'login' // 当前展示的是登录框还是注册框
     }
     componentDidMount() {
-      console.log('componentDidMount')
+      console.log(this.props.history)
       // 防止用户通过浏览器的前进后退按钮来进行路由跳转
       // 当用户登陆后再通过浏览器的后退按钮回到登录页时，再点击前进按钮可以直接回到首页
-      // if (!!isAuthenticated()) {
-      //   this.props.history.go(1)   //不然他后退或者后退了直接登出
-      //   // logout()
-      // }
-      // preloadingImages(imgs)
+      let  isAuthenticated =  localStorage.getItem("token") ? true : false;
+      if (isAuthenticated) {
+        this.props.history.go(1)   //不然他后退或者后退了直接登出
+      }
     }
     toggleShow = () => {
       this.setState({
@@ -29,7 +30,7 @@ class LoginForm extends React.Component {
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values);
+          // console.log('Received values of form: ', values);
           this.onLogin(values)
         }
       });
@@ -38,34 +39,24 @@ class LoginForm extends React.Component {
      * 表单验证成功后的登录函数
      */
     onLogin = async (values) => {
-      // const res = await get(`/user/checkName?username=${values.username}`)
-      // if (res.status === 0 && !res.data.num) {
-      //   this.props.form.setFields({
-      //     username: {
-      //       value: values.username,
-      //       errors: [new Error('用户名不存在')]
-      //     }
-      //   })
-      //   this._createCode()
-      //   this.props.form.resetFields('captcha')
-      //   return
-      // }
-      // //加密密码
-      // const ciphertext = encrypt(values.password)
-      // const res2 = await post('/user/login', {
-      //   username: values.username,
-      //   password: ciphertext
-      // })
-      // if (res2.status !== 0) {
-      //   this._createCode()
-      //   this.props.form.resetFields('captcha')
-      //   return
-      // }
       const { username, password, remember } = values
-      if(username === 'admin') {
-        localStorage.setItem('username', values.username)
-        this.props.history.push('/')
+      const res = await login(username, password)
+      if(res.data.httpCode == '400'){
+        notification.success({
+          message: '登陆失败',
+          description: res.data.message,
+          duration: 3
+        })
+        return
       }
+      setToken(res.data.data.token)
+      notification.success({
+        message: '登陆成功',
+        description: res.data.message,
+        duration: 3
+      })
+      console.log(this.props.history)
+      this.props.history.push('/')
     }
 
     render() {
@@ -74,10 +65,10 @@ class LoginForm extends React.Component {
         return (
           <div className="login-container">
             <Form onSubmit={this.handleSubmit} className="login-form">
-              <h3 className="title">后台管理系统</h3>
+              <h3 className="title">欢迎登陆后台管理系统</h3>
               <Form.Item>
                 {getFieldDecorator('username', {
-                  rules: [{ required: true, message: 'Please input your username!' }],
+                  rules: [{ required: true, message: '用户名!' }],
                 })(
                   <Input
                     prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -87,7 +78,7 @@ class LoginForm extends React.Component {
               </Form.Item>
               <Form.Item>
                 {getFieldDecorator('password', {
-                  rules: [{ required: true, message: 'Please input your Password!' }],
+                  rules: [{ required: true, message: '密码!' }],
                 })(
                   <Input
                     prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -97,17 +88,9 @@ class LoginForm extends React.Component {
                 )}
               </Form.Item>
               <Form.Item>
-                {getFieldDecorator('remember', {
-                  valuePropName: 'checked',
-                  initialValue: true,
-                })(<Checkbox>Remember me</Checkbox>)}
-                <span className="login-form-forgot">
-                    Forgot password
-                </span>
                 <Button type="primary" htmlType="submit" className="login-form-button">
-                  Login
+                  登陆
                 </Button>
-                Or <span className="login-register-button">register now!</span>
               </Form.Item>
             </Form>
           </div>

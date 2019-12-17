@@ -1,10 +1,14 @@
 import request from '@/utils/request'
 
-// 微信登录
-export function wechatLogin(code) {
+// 登录
+export function login(username,password) {
+  const data = {
+    username,
+    password
+  }
   return request({
-    url: '/admin/wechatLogin',
+    url: '/admin/login',
     method: 'post',
-    params: { code }
+    data
   })
 }

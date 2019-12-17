@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import LoadableComponent from '@/utils/LoadableComponent'
 import MyIcon from '@/components/MyIcon'
+import { logout } from '@/utils/auth'
+
 
 const { SubMenu, ItemGroup} = Menu;
 

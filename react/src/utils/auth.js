@@ -1,4 +1,4 @@
-const TokenKey = 'usetoken'
+const TokenKey = 'token'
 const UserName = 'usename'
 const UserCode = 'usecode'
 
@@ -12,7 +12,7 @@ export function getToken() {
   return localStorage.getItem(TokenKey)
 }
 
-export function removeToken() {
+export function logout() {
   // return Cookies.remove(TokenKey)
   return localStorage.removeItem(TokenKey)
 }
