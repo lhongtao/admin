@@ -1,4 +1,5 @@
 import { Form } from 'antd'
+import CryptoJS from 'crypto-js'
 
 /**
  * 判断是否是对象
@@ -23,3 +24,15 @@ export function createFormField(obj) {
     }
     return target
 }
+
+/**
+ * 生成指定区间的随机整数
+ * @param min
+ * @param max
+ * @returns {number}
+ */
+export function randomNum(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+  
+  

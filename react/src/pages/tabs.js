@@ -35,11 +35,11 @@ const menu = [
         icon: '',
         key: 'Tinymce',
       },
-      {
-        name: '头像上传',
-        icon: '',
-        key: 'AvatarUpload',
-      },
+      // {
+      //   name: '头像上传',
+      //   icon: '',
+      //   key: 'AvatarUpload',
+      // },
       {
         name: '列表拖拽',
         icon: '',
@@ -140,5 +140,8 @@ const tabs = {
   Chat: <Chat />,
 }
 
-export { menu,tabs }
+export { 
+  menu,
+  tabs 
+}
 

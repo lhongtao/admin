@@ -122,7 +122,7 @@ class MyHeader extends React.Component {
               <SubMenu title={<div style={styles.avatarBox}><Avatar size='small' icon="user" style={styles.avatarIcon}/>&nbsp;<span>Admin</span></div>}>
                 <ItemGroup title="用户中心">
                   <Menu.Item key={1} onClick={() => this.toggleInfoVisible(true)}><Icon type="user" />编辑个人信息</Menu.Item>
-                  <Menu.Item key={77} onClick={() => this.togglePasswordVisible(true)}><Icon type="edit" />修改密码</Menu.Item>
+                  {/* <Menu.Item key={77} onClick={() => this.togglePasswordVisible(true)}><Icon type="edit" />修改密码</Menu.Item> */}
                   <Menu.Item key={2} onClick={this.onLogout}><Icon type="logout" />退出登录</Menu.Item>
                 </ItemGroup>
                 <ItemGroup title="设置中心">
