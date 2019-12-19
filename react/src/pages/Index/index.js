@@ -4,13 +4,13 @@ import Mysider from './MySider'
 import MyHeader from './MyHeader'
 import MyContent from './MyContent'
 import './style.less'
-import { getUser, initWebsocket } from '@/store/actions'
+import { getUserById, initWebsocket } from '@/store/actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 const store = connect(
   (state) => ({ user: state.user, websocket: state.websocket }),
-  (dispatch) => bindActionCreators({ getUser, initWebsocket }, dispatch)
+  (dispatch) => bindActionCreators({ getUserById, initWebsocket }, dispatch)
 )
 
 const { Header, Sider, Content } = Layout
@@ -32,15 +32,14 @@ class Index extends React.Component {
    */
   init = async () => {
     const username = localStorage.getItem('username')
-    await this.props.getUser({ username })
-    console.log(this.props.user)
-    this.props.initWebsocket(this.props.user)
+    await this.props.getUserById({ username })
+    // this.props.initWebsocket(this.props.user)
   }
   _setState = (obj) => {
     this.setState(obj)
   }
   render() {
-    const { collapsed, panes, activeMenu, theme } = this.state
+    const { collapsed, panes, activeMenu, theme, userInfo } = this.state
     return (
       <Layout style={{ height: '100vh' }} className="layou-app">
         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>

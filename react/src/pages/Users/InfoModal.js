@@ -38,13 +38,8 @@ class InfoModal extends React.Component {
                     </Form.Item>
                 </Col>
                 <Col span={12}>
-                    <Form.Item label="注册时间">
-                        {getFieldDecorator('rTime', {})(<Input />)}
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item label="注册城市">
-                        {getFieldDecorator('registrationAddress', {})(<Input />)}
+                    <Form.Item label="身份">
+                        {getFieldDecorator('type', {})(<Input />)}
                     </Form.Item>
                 </Col>
                 <Col span={12}>

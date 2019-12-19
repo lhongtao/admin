@@ -24,6 +24,7 @@ module.exports=function (){
   router.use('/custom', require('./custom')());
   router.use('/file', require('./file')());
   router.use('/system', require('./system')());
+  router.use('/user', require('./user')());
 
   return router;
 };

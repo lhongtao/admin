@@ -1,5 +1,4 @@
 const { exec } = require('../db/mysql')
-const express=require('express');
 const mysql=require('mysql');
 const { SuccessModel, ErrorModel } = require('../model/resModel')
 const { dateNow } = require('../utils/filter')

@@ -4,6 +4,7 @@ import moment from 'moment'
 import InfoModal from './InfoModal'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { getUsers } from '@/api/user'
 
 const { RangePicker } = DatePicker;
 const store = connect(
@@ -28,7 +29,7 @@ class User extends React.Component {
   }
   
   componentDidMount() {
-    // this.getUsers()
+    this.getUsers()
   }
 
   componentDidUpdate(prevProps) {
@@ -44,30 +45,33 @@ class User extends React.Component {
     const { pagination } = this.state
     const fields = this.props.form.getFieldsValue()
     this.setState({
-        usersLoading: true,
+      usersLoading: true,
     })
-    const res = await json.get('/user/getUsers', {
-        current: page - 1,
-        username: fields.username || '',   //koa会把参数转换为字符串，undefined也会
-        startTime: fields.startTime ? fields.startTime.valueOf() : '',
-        endTime: fields.endTime ? fields.endTime.valueOf() : ''
-    })
-    if (res.status !== 0) {
-        this.setState({
-            usersLoading: false,
-        })
-        return
+    const param = {
+      current: page - 1,
+      // username: fields.username || '',   //koa会把参数转换为字符串，undefined也会
+      // startTime: fields.startTime ? fields.startTime.valueOf() : '',
+      // endTime: fields.endTime ? fields.endTime.valueOf() : ''
+    }
+    const res = await getUsers(param)
+    if (res.data.httpCode !== 200) {
+      this.setState({
+        usersLoading: false,
+      })
+      return
     }
     this.setState({
-        usersLoading: false,
-        users: res.data.list,
-        pagination: {
-            ...pagination,
-            total: res.data.total,
-            current: page
-        }
+      usersLoading: false,
+      users: res.data.data.list,
+      pagination: {
+          ...pagination,
+          total: res.data.data.total,
+          current: page
+      }
     })
+  
   }
+  
   /**
    * table分页
    */
@@ -107,7 +111,8 @@ class User extends React.Component {
     const userInfo = {
         username: record.username,
         gender: record.gender,
-        rTime: record.registrationTime && moment(record.registrationTime).format('YYYY-MM-DD HH:mm:ss'),
+        type: record.type ? '管理员' : '超级管理员',
+        createDate: record.createDate && moment(record.createDate).format('YYYY-MM-DD HH:mm:ss'),
         lastLoginAddress: record.lastLoginAddress,
         registrationAddress: record.registrationAddress,
         lastLoginTime: record.lastLoginTime && moment(record.lastLoginTime).format('YYYY-MM-DD HH:mm:ss')
@@ -173,13 +178,8 @@ class User extends React.Component {
         align: 'center'
       },
       {
-        title: '注册地址',
-        dataIndex: 'registrationAddress',
-        align: 'center',
-      },
-      {
-        title: '注册时间',
-        dataIndex: 'registrationTime',
+        title: '上一次登陆时间',
+        dataIndex: 'lastLoginTime',
         align: 'center',
         render: (text) => text && moment(text).format('YYYY-MM-DD HH:mm:ss'),
         sorter: true
@@ -190,8 +190,15 @@ class User extends React.Component {
         align: 'center',
       },
       {
+        title: '创建时间',
+        dataIndex: 'createDate',
+        align: 'center',
+        render: (text) => text && moment(Number(text)).format('YYYY-MM-DD HH:mm:ss'),
+        sorter: true
+      },
+      {
         title: '身份',
-        dataIndex: 'isAdmin',
+        dataIndex: 'type',
         align: 'center',
         render: (text) => text ? '管理员' : '超级管理员',
       },
@@ -212,22 +219,6 @@ class User extends React.Component {
         )
       },
     ];
-    const data = [];
-    for (let i = 0; i < 3; i++) {
-      data.push({
-        birth: null,
-        gender: null,
-        id: i,
-        isAdmin: i,
-        lastLoginAddress: '上海',
-        lastLoginTime: 1571189723772,
-        location: null,
-        phone: null,
-        registrationAddress: '北京',
-        registrationTime: 1571187249221,
-        username: '张三',
-      });
-    }
     return (
       <div style={{ padding: 24 }}>
         <Card bordered={false}>
@@ -249,7 +240,7 @@ class User extends React.Component {
                     <RangePicker
                       showTime={{ format: 'HH:mm' }}
                       format="YYYY-MM-DD HH:mm"
-                      placeholder={['注册开始时间', '注册结束时间']}
+                      placeholder={['开始时间', '结束时间']}
                       onChange={this.onDateChange}
                       onOk={this.onOk}
                     />,
@@ -272,7 +263,7 @@ class User extends React.Component {
             rowKey='id'
             columns={columns}
             pagination={pagination}
-            dataSource={data}
+            dataSource={users}
             rowSelection={rowSelection}
             onChange={this.onTableChange}
           />

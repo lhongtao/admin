@@ -8,9 +8,13 @@ import LoadableComponent from '@/utils/LoadableComponent'
 import MyIcon from '@/components/MyIcon'
 import { logout } from '@/utils/auth'
 
-
 const { SubMenu, ItemGroup} = Menu;
 
+const store = connect(
+  (state) => ({ user: state.user }),
+)
+
+@withRouter @store
 class MyHeader extends React.Component {
   constructor(props) {
     super(props);
@@ -100,6 +104,7 @@ class MyHeader extends React.Component {
   render() {
     const { isFullscreen, color, infoVisible, passwordVisible } = this.state
     const { user, theme } = this.props
+    console.log(user)
     return (
       <div style={{ background: '#fff', padding: '0 16px' }}>
         <Icon
@@ -119,7 +124,7 @@ class MyHeader extends React.Component {
           </div>
           <div style={styles.headerItem}>
             <Menu mode="horizontal" selectable={false}>
-              <SubMenu title={<div style={styles.avatarBox}><Avatar size='small' icon="user" style={styles.avatarIcon}/>&nbsp;<span>Admin</span></div>}>
+              <SubMenu title={<div style={styles.avatarBox}><Avatar size='small' icon="user" style={styles.avatarIcon}/>&nbsp;<span>{user.username}</span></div>}>
                 <ItemGroup title="用户中心">
                   <Menu.Item key={1} onClick={() => this.toggleInfoVisible(true)}><Icon type="user" />编辑个人信息</Menu.Item>
                   {/* <Menu.Item key={77} onClick={() => this.togglePasswordVisible(true)}><Icon type="edit" />修改密码</Menu.Item> */}
@@ -160,4 +165,4 @@ const styles = {
     color: '#666'
   }
 }
-export default withRouter(MyHeader)
+export default MyHeader

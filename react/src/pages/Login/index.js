@@ -63,13 +63,14 @@ class LoginForm extends React.Component {
         })
         return
       }
+      console.log(res.data.data)
+      localStorage.setItem('username', res.data.data.username)
       setToken(res.data.data.token)
       notification.success({
         message: '登陆成功',
         description: res.data.message,
         duration: 3
       })
-      console.log(this.props.history)
       this.props.history.push('/')
     }
 

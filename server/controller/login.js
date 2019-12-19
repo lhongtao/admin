@@ -46,7 +46,7 @@ const login = async function (username,password) {
   return new SuccessModel({
     message: '登陆成功',
     data: {
-      uesrname: res[0].username,
+      username: res[0].username,
       token: jwt.sign({ username }, TOKEN_SECRETKEY, { expiresIn: '7d' })   //7天过期时间
     }
   })
